@@ -7,8 +7,6 @@
 
 use std::hash::Hash;
 
-use rand::{rngs::StdRng, Rng, SeedableRng};
-
 use num_bigint::{BigInt, BigUint, Sign};
 use num_integer::Integer;
 use num_traits::*;
@@ -497,22 +495,4 @@ pub fn jacobi(x: &BigInt, y: &BigInt) -> isize {
 
 fn is_bit_set(x: &BigUint, i: usize) -> bool {
     ((x >> i) & &*BIG_1) == *BIG_1
-}
-
-/// Generates biguint within `[0;upper)` range
-fn gen_biguint_below<R: Rng>(r: &mut R, upper: &BigUint) -> BigUint {
-    loop {
-        let bits = upper.bits();
-        let bytes = bits.div_ceil(&8);
-        let mut buf = vec![0u8; bytes as usize];
-        r.fill_bytes(&mut buf);
-
-        let mask = 0xff_u8 >> (bytes * 8 - bits);
-        buf[0] &= mask;
-
-        let n = BigUint::from_bytes_be(&buf);
-        if &n < upper {
-            break n;
-        }
-    }
 }
