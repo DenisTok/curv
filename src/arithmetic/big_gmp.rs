@@ -133,20 +133,6 @@ impl BasicOps for BigInt {
     }
 }
 
-impl Primes for BigInt {
-    fn next_prime(&self) -> Self {
-        self.gmp.nextprime().wrap()
-    }
-
-    fn is_probable_prime(&self, n: u32) -> bool {
-        use gmp::mpz::ProbabPrimeResult::*;
-        match self.gmp.probab_prime(n as i32) {
-            Prime | ProbablyPrime => true,
-            NotPrime => false,
-        }
-    }
-}
-
 impl Modulo for BigInt {
     fn mod_pow(base: &Self, exponent: &Self, modulus: &Self) -> Self {
         assert!(exponent >= &BigInt::zero(), "exponent must be non-negative");

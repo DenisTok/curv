@@ -126,24 +126,6 @@ impl BasicOps for BigInt {
     }
 }
 
-impl Primes for BigInt {
-    fn next_prime(&self) -> BigInt {
-        if self.num.sign() != Sign::Plus {
-            return BigInt::from(2);
-        }
-        let uint = primes::next_prime(self.num.magnitude());
-        BN::from_biguint(Sign::Plus, uint).wrap()
-    }
-
-    fn is_probable_prime(&self, n: u32) -> bool {
-        if self.num.sign() != Sign::Plus {
-            false
-        } else {
-            primes::probably_prime(self.num.magnitude(), n as usize)
-        }
-    }
-}
-
 impl Modulo for BigInt {
     fn mod_pow(base: &Self, exponent: &Self, modulus: &Self) -> Self {
         base.num.modpow(&exponent.num, &modulus.num).wrap()
