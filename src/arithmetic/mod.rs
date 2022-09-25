@@ -16,7 +16,6 @@
 
 mod errors;
 mod macros;
-mod samplable;
 mod serde_support;
 pub mod traits;
 
