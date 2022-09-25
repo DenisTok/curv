@@ -15,13 +15,13 @@
 */
 
 use std::convert::{TryFrom, TryInto};
-use std::sync::atomic;
-use std::{fmt, ops, ptr};
+// use std::sync::atomic;
+use std::{fmt, ops};
 
 use gmp::mpz::Mpz;
 use gmp::sign::Sign;
 use num_traits::{One, Zero};
-use zeroize::Zeroize;
+// use zeroize::Zeroize;
 
 use super::errors::*;
 use super::traits::*;
@@ -51,22 +51,22 @@ impl BigInt {
     }
 }
 
-#[allow(deprecated)]
-impl ZeroizeBN for BigInt {
-    fn zeroize_bn(&mut self) {
-        unsafe { ptr::write_volatile(&mut self.gmp, Mpz::zero()) };
-        atomic::fence(atomic::Ordering::SeqCst);
-        atomic::compiler_fence(atomic::Ordering::SeqCst);
-    }
-}
-
-impl Zeroize for BigInt {
-    fn zeroize(&mut self) {
-        unsafe { ptr::write_volatile(&mut self.gmp, Mpz::zero()) };
-        atomic::fence(atomic::Ordering::SeqCst);
-        atomic::compiler_fence(atomic::Ordering::SeqCst);
-    }
-}
+// #[allow(deprecated)]
+// impl ZeroizeBN for BigInt {
+//     fn zeroize_bn(&mut self) {
+//         unsafe { ptr::write_volatile(&mut self.gmp, Mpz::zero()) };
+//         atomic::fence(atomic::Ordering::SeqCst);
+//         atomic::compiler_fence(atomic::Ordering::SeqCst);
+//     }
+// }
+//
+// impl Zeroize for BigInt {
+//     fn zeroize(&mut self) {
+//         unsafe { ptr::write_volatile(&mut self.gmp, Mpz::zero()) };
+//         atomic::fence(atomic::Ordering::SeqCst);
+//         atomic::compiler_fence(atomic::Ordering::SeqCst);
+//     }
+// }
 
 impl Converter for BigInt {
     fn to_bytes(&self) -> Vec<u8> {
