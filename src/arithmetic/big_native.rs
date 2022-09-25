@@ -9,7 +9,6 @@ use super::traits::*;
 use num_bigint::BigInt as BN;
 use num_bigint::Sign;
 
-mod primes;
 mod ring_algorithms;
 
 /// Big integer
@@ -32,22 +31,6 @@ impl BigInt {
     }
     fn into_inner(self) -> BN {
         self.num
-    }
-}
-
-#[allow(deprecated)]
-impl ZeroizeBN for BigInt {
-    fn zeroize_bn(&mut self) {
-        zeroize::Zeroize::zeroize(self)
-    }
-}
-
-impl zeroize::Zeroize for BigInt {
-    fn zeroize(&mut self) {
-        use std::{ptr, sync::atomic};
-        unsafe { ptr::write_volatile(&mut self.num, Zero::zero()) };
-        atomic::fence(atomic::Ordering::SeqCst);
-        atomic::compiler_fence(atomic::Ordering::SeqCst);
     }
 }
 
